@@ -1,4 +1,3 @@
-
 # multirun
 
 [![Build](https://github.com/nicolas-van/multirun/actions/workflows/build.yml/badge.svg)](https://github.com/nicolas-van/multirun/actions/workflows/build.yml)
@@ -25,7 +24,6 @@ Unlike most process managers multirun never attempts to restart one of its child
 Currently, multirun is only present in Alpine's distribution
 
 #### Alpine
-
 
 ```bash
 apk add multirun
@@ -75,7 +73,7 @@ rm -rf multirun-src
 * If all the direct children exited with 0 multirun will also exit with 0. It will exit with -1 otherwise.
   
 ## FAQ
-   
+
 ### When to use multirun in a Docker container
 
 *The Docker documentation and most best practices documents regarding Docker tells that you should embed no more than one application per container*. This is indeed perfectly true.
