@@ -41,12 +41,16 @@ char* const* commands;
 int nbr_processes = 0;
 subprocess* subprocesses = NULL;
 int closing = 0;
+int direct_child = 0;
 
 int main(int argc, char *const *argv) {
     int opt;
 
-    while ((opt = getopt(argc, argv, "vh")) != -1) {
+    while ((opt = getopt(argc, argv, "vhc")) != -1) {
         switch (opt) {
+        case 'c':
+          direct_child = 1;
+          break;
         case 'v':
             verbose = 1;
             break;
@@ -203,6 +207,7 @@ void print_help() {
     printf("Options:\n");
     printf("    -v verbose mode\n");
     printf("    -h display help\n");
+    printf("    -c signals are only forwarded to the direct child(ren) and not any of its descendants.\n");
 }
 
 void sub_exec(const char* command) {
@@ -222,7 +227,7 @@ void sub_exec(const char* command) {
 
 void kill_all(int signal) {
     for (int i = 0; i < nbr_processes; i++) {
-        int ret = kill(-subprocesses[i].pid, signal);
+        int ret = kill(direct_child ? subprocesses[i].pid : -subprocesses[i].pid, signal);
         if (ret != 0) {
             if (errno == ESRCH) {
                 // ignore
